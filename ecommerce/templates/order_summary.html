@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block header %}
+    <div class="hero-wrap hero-bread" style="background-image: url({% static 'images/bg_1.jpg' %});">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Order Summary</span></p>
+            <h1 class="mb-0 bread">Order Summary</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <p>Your Order Summary.</p>
+    <ul>
+        {% for order in orders %}
+            <li>{{ order.order_id }}</li>
+            <li>{{ order.amount }}</li>
+            <li>{{ order.order_data }}</li>
+            {% for item in order.items.all %}
+                <div class="card mb-3" style="max-width: 540px;">
+                   <div class="row g-0">
+                      <div class="col-md-4">
+                         <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                           <h5 class="card-title">{{ item.product.name }}</h5>
+                           <h5 class="card-title">${{ item.product.price }}</h5>
+                           <h5 class="card-title">Quantity: {{ item.quantity }}</h5>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endblock %}

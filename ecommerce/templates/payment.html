@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block header %}
+    <div class="hero-wrap hero-bread" style="background-image: url({% static 'images/bg_1.jpg' %});">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Payment</span></p>
+            <h1 class="mb-0 bread">Payment</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+{% if payment %}
+{% comment %} 4100 2800 0000 1007 {% endcomment %}
+<form action="{% url 'cart:paymentsuccess' %}" method="POST">
+<script
+   src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="rzp_test_SeUkPwRXblu7kK"
+    data-amount="{{payment.amount}}"
+    data-currency="INR"
+    data-order_id="{{payment.id}}"
+    data-buttontext="Pay with Razorpay"
+    data-name="Acme Corp"
+    data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+    data-image="https://example.com/your_logo.jpg"
+    data-prefill.name="Gaurav Kumar"
+    data-prefill.email="gaurav.kumar@example.com"
+    data-theme.color="#F37254"
+></script>
+<input type="hidden" custom="Hidden Element" name="hidden"/>
+</form>
+{% else %}
+    <p>Your Ordered Placed Successfully.</p>
+{% endif %}
+{% comment %} <form action="/your-server-side-code" method="POST">
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key= "rzp_test_SeUkPwRXblu7kK"
+<script>
+var options = {
+    "key": "{{payment.id}}",
+    "amount": "{{payment.amount}}",
+    "currency": "INR",
+    "name": "Acme Corp",
+    "buttontext": "Pay with Razorpay",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "order_9A33XWu170gUtm", // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "<name>", //your customer's name
+        "email": "<email>",
+        "contact": "<phone>" //Provide the customer's phone number for better conversion rates 
+    }
+};
+</script>
+<input type="hidden" name="hidden">
+</form> {% endcomment %}
+{% endblock %}
